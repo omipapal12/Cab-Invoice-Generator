@@ -5,6 +5,12 @@ public class InvoiceGenerator {
     private static final int COST_PER_MINUTE = 1;
     private static final int MINIMUM_FARE = 5;
 
+    public RidesRepository rideRepository;
+
+    public InvoiceGenerator() {
+        this.rideRepository = new RidesRepository();
+    }
+
     public static void main(String[] args) {
         System.out.println("WELCOME TO CAB INVOICE GENERATOR");
     }
@@ -27,5 +33,15 @@ public class InvoiceGenerator {
     public InvoiceSummary getInvoiceSummary(Ride[] rides) {
         double totalFare = getTotalFare(rides);
         return new InvoiceSummary(rides.length, totalFare);
+    }
+
+    public InvoiceSummary getInvoiceSummary(String userId) {
+        Ride[] rideList = rideRepository.getRides(userId);
+        double totalFare = getTotalFare(rideList);
+        return new InvoiceSummary(rideList.length, totalFare);
+    }
+
+    public void addRides(String userId, Ride[] rides) {
+        rideRepository.addRides(userId, rides);
     }
 }
